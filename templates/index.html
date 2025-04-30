@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Game Completion List 📝</title>
     <style>
+        table{
+            border-collapse: collapse;
+            font-size: 16px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color:rgb(208, 195, 179);
+        }
         .formatTable{
             display: flex;
             justify-content: center;
@@ -12,7 +21,7 @@
         }
         .formatTable table{
             width: auto;
-            min-width: 600;
+            min-width: 600px;
         }
         .log-container {
             background-color: white;
@@ -29,9 +38,30 @@
         }
         
         .log-form {
-            margin-bottom: 20px;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .log-form textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .log-form label{
+            font-size: 16px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .log-form input [type="checkbox"]{
+            width: auto;
+            margin-right: 8px;
         }
         
         #log-input {
@@ -46,12 +76,29 @@
             background-color: #4299e1;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 14px;
+            border-radius: 6px;
             font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3 ease;
         }
         
+        .log-form button {
+            flex: 1 1 100%;
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3 ease;
+        }
+
+        .log-form button:hover{
+            background-color: #3182ce;
+        }
+
         .log-item {
             display: flex;
             align-items: center;
@@ -95,10 +142,16 @@
         <form action="{{url_for('add') }}" method="post" class="log-form">
             <input type="text" id="log-input" name="title" placeholder="What the name of the game?" required aria-label="New game added">
             <input type="text" name="leftOffAt" placeholder="Where did you leave off?">
-            <label><input type="checkbox" name="completed">is the game completed?</label>
+            
+            <label>
+                <input type="checkbox" name="completed">is the game completed?
+            </label>
+
+
             <input type="date" name="completionDate" placeholder="If so when did you complete the game?"> 
             <input type="number" name="reviewInt" placeholder="What would you rate the game out of 10?">
-            <input type="text" name="reviewText" placeholder="Would you like to share why you gave the game that score?">
+            <input type="text" name="reviewText" placeholder="Why did you gave the game that score?">
+            
             <button type="submit"> Add log</button>
         </form>
     <div class="formatTable"> 
