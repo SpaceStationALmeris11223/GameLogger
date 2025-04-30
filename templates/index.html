@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Game Completion List 📝</title>
+    <style>
+        .formatTable{
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .formatTable table{
+            width: auto;
+            min-width: 600;
+        }
+        .log-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .log-form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        #log-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .log-form button {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .log-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+        }
+        
+        .log-item.done {
+            background-color: #f8fafc;
+            text-decoration: line-through;
+            color: #718096;
+        }
+        
+        .log-item span {
+            flex: 1;
+        }
+        
+        .log-item small {
+            color: #718096;
+            margin: 0 10px;
+        }
+        
+        .log-item a {
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .log-item a[aria-label="Delete game"] {
+            color: #e53e3e;
+        }
+    </style>
+</head>
+
+<body>
+<div class="log-container">
+        <h1>My Game Completion Log🎮</h1>
+
+        <form action="{{url_for('add') }}" method="post" class="log-form">
+            <input type="text" id="log-input" name="title" placeholder="What the name of the game?" required aria-label="New game added">
+            <input type="text" name="leftOffAt" placeholder="Where did you leave off?">
+            <label><input type="checkbox" name="completed">is the game completed?</label>
+            <input type="date" name="completionDate" placeholder="If so when did you complete the game?"> 
+            <input type="number" name="reviewInt" placeholder="What would you rate the game out of 10?">
+            <input type="text" name="reviewText" placeholder="Would you like to share why you gave the game that score?">
+            <button type="submit"> Add log</button>
+        </form>
+    <div class="formatTable"> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Delete</th>
+                    <th>Title</th>
+                    <th>Left off at</th>
+                    <th>Completed?</th>
+                    <th>Completion date</th>
+                    <th>Rating</th>
+                    <th>Review</th>    
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in games %}
+                <tr>
+                    <td><a href="{{ url_for('delete', game_id=game.id) }}" aria-label="Delete game?">🗑️</a></td>
+                    <td>{{game.title}}</td>
+                    <td>{{game.leftOffAt or 'N/A'}}</td>
+                    <td>{{'Yes' if game.completed else 'No'}}</td>
+                    <td>{{game.completionDate.strftime('%Y-%m-%d') if game.completionDate else 'N/A'}}</td>
+                    <td>{{game.reviewInt if game.reviewInt is not none else 'N/A'}}</td>
+                    <td>{{game.reviewText or 'N/A'}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+</div>
+</body>
+</html>
